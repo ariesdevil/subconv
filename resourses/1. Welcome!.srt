@@ -1,0 +1,48 @@
+1
+00:00:02,240 --> 00:00:02,780
+Awesome.
+
+
+2
+00:00:02,780 --> 00:00:03,950
+Let's get started.
+
+
+3
+00:00:03,950 --> 00:00:04,700
+I'm Daniel.
+
+
+4
+00:00:04,730 --> 00:00:08,980
+In this chapter we are going to warm up with a full taste of advanced scholar.
+
+
+5
+00:00:09,170 --> 00:00:15,350
+We're going to do three big things first of all we'll get a refresher of what we know so far and then
+
+
+6
+00:00:15,350 --> 00:00:20,600
+we'll dive into you some dark syntactic sugars that will make Skylar an even more expressive language
+
+
+7
+00:00:20,600 --> 00:00:22,720
+than we were even aware.
+
+
+8
+00:00:22,760 --> 00:00:27,250
+And after that we will learn how to customize pattern matching with our own patterns.
+
+
+9
+00:00:27,260 --> 00:00:28,150
+I hope you're excited.
+
+
+10
+00:00:28,160 --> 00:00:29,810
+So let's move to the next video.
