@@ -18,11 +18,11 @@ pub enum Direction {
     SRT2VTT,
 }
 
-pub fn convert<T: AsRef<str> + ?Sized>(file: &T, direct: Direction) -> std::io::Result<()> {
+pub fn convert(file: &str, direct: Direction) -> std::io::Result<()> {
     match direct {
         Direction::VTT2SRT => {
-            let content = vtt2srt(file.as_ref())?;
-            let out_path = format!("{}.{}", file.as_ref().strip_suffix(".vtt").unwrap(), "srt");
+            let content = vtt2srt(file)?;
+            let out_path = format!("{}.{}", file.strip_suffix(".vtt").unwrap(), "srt");
             write_content(out_path, content)?
         }
         Direction::SRT2VTT => unimplemented!(),

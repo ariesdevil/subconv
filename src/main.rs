@@ -21,10 +21,13 @@ fn main() {
     for dir in args.dirs {
         let walker = WalkDir::new(dir).into_iter();
         for entry in walker.filter_map(|e| e.ok()) {
-            let f_name = entry.path().to_string_lossy();
+            let f_name = entry
+                .path()
+                .to_str()
+                .expect(&format!("wrong file path: {}", entry.path().display()));
             if f_name.ends_with(".vtt") {
                 println!("{}", f_name);
-                match conv::convert(f_name.as_ref(), conv::Direction::VTT2SRT) {
+                match conv::convert(f_name, conv::Direction::VTT2SRT) {
                     Ok(_) => println!("Success"),
                     Err(e) => panic!(e),
                 }
