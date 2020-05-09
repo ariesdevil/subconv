@@ -7,17 +7,24 @@ use walkdir::WalkDir;
 struct SubConvArgs {
     #[argh(option, short = 'd', description = "dirs of subtitles resident")]
     dirs: Vec<String>,
+
+    #[argh(option, short = 'f', description = "file path")]
+    file: Option<String>,
 }
 
 fn main() {
     let args: SubConvArgs = argh::from_env();
+    match args.file {
+        Some(f) => conv::convert(&f, conv::Direction::VTT2SRT),
+        None => Ok(()),
+    };
     for dir in args.dirs {
         let walker = WalkDir::new(dir).into_iter();
         for entry in walker.filter_map(|e| e.ok()) {
             let f_name = entry.path().to_string_lossy();
             if f_name.ends_with(".vtt") {
                 println!("{}", f_name);
-                match conv::convert(vec![f_name].as_slice(), conv::Direction::VTT2SRT) {
+                match conv::convert(f_name.as_ref(), conv::Direction::VTT2SRT) {
                     Ok(_) => println!("Success"),
                     Err(e) => panic!(e),
                 }

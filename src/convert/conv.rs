@@ -18,17 +18,16 @@ pub enum Direction {
     SRT2VTT,
 }
 
-pub fn convert<T: AsRef<str>>(files: &[T], direct: Direction) -> std::io::Result<()> {
-    for f in files {
-        match direct {
-            Direction::VTT2SRT => {
-                let content = vtt2srt(f.as_ref())?;
-                let out_path = format!("{}.{}", f.as_ref().strip_suffix(".vtt").unwrap(), "srt");
-                write_content(out_path, content)?
-            }
-            Direction::SRT2VTT => unimplemented!(),
+pub fn convert<T: AsRef<str> + ?Sized>(file: &T, direct: Direction) -> std::io::Result<()> {
+    match direct {
+        Direction::VTT2SRT => {
+            let content = vtt2srt(file.as_ref())?;
+            let out_path = format!("{}.{}", file.as_ref().strip_suffix(".vtt").unwrap(), "srt");
+            write_content(out_path, content)?
         }
+        Direction::SRT2VTT => unimplemented!(),
     }
+
     Ok(())
 }
 
@@ -110,9 +109,9 @@ mod tests {
 
     #[test]
     fn test_vtt2srt_tmp() {
-        let bytes = include_bytes!("../../resourses/1. Welcome!.vtt");
+        let bytes = include_bytes!("../../resources/demo.vtt");
         let mut file_path = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        file_path.push("resourses/1. Welcome!.vtt");
+        file_path.push("resources/demo.vtt");
         assert_eq!(
             String::from_utf8_lossy(bytes),
             read_content(file_path.as_path()).unwrap()
@@ -122,11 +121,10 @@ mod tests {
     #[test]
     fn test_vtt2srt() {
         let base = std::env::var("CARGO_MANIFEST_DIR").unwrap_or_else(|_| ".".to_string());
-        let vtt_file_path = format!("{}/{}", base, "resourses/1. Welcome!.vtt");
+        let vtt_file_path = format!("{}/{}", base, "resources/demo.vtt");
 
-        let srt_content =
-            String::from_utf8_lossy(include_bytes!("../../resourses/1. Welcome!.srt"));
-        let srt_file_path = format!("{}/{}", base, "resources/1. Welcome!.srt");
+        let srt_content = String::from_utf8_lossy(include_bytes!("../../resources/demo.srt"));
+        let srt_file_path = format!("{}/{}", base, "resources/demo.srt");
         let convert_srt_content = vtt2srt(&vtt_file_path).unwrap();
         println!("{}", convert_srt_content);
         let out_path = Path::new("/Users/ariesdevil/Downloads/01.srt");
